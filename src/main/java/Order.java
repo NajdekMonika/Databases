@@ -6,13 +6,15 @@ public class Order {
     private String delivery;
     private String payment;
     private int coffeeId;
+    private int clientId;
 
-    public Order(LocalDateTime dateTime, int coffeeCount, String delivery, String payment, int coffeeId) {
+    public Order(LocalDateTime dateTime, int coffeeCount, String delivery, String payment, int coffeeId, int clientId) {
         this.dateTime = dateTime;
         this.coffeeCount = coffeeCount;
         this.delivery = delivery;
         this.payment = payment;
         this.coffeeId = coffeeId;
+        this.clientId = clientId;
     }
 
     public LocalDateTime getDateTime() {
@@ -35,6 +37,10 @@ public class Order {
         return coffeeId;
     }
 
+    public int getClientId() {
+        return clientId;
+    }
+
     @Override
     public String toString() {
         return "Zamówienie{" +
@@ -43,6 +49,7 @@ public class Order {
                 ", forma dostawy='" + delivery + '\'' +
                 ", forma zaplaty='" + payment + '\'' +
                 ", kawa=" + coffeeId +
+                ", id klienta=" + clientId +
                 '}';
     }
 }
