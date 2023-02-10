@@ -30,11 +30,11 @@ public class Main {
     }
 
     public static void customerMenu(){
-        int answer = 0;
-        while (answer != 4){
+        int answer;
+        while (true){
             printMenu();
-        try{
         answer = sc.nextInt();
+        sc.nextLine();
         switch (answer){
             case 1:
                 filterCoffee();
@@ -47,9 +47,9 @@ public class Main {
                 break;
             case 4:
                 exit(0);
-        }}catch(Exception ex){
-            System.out.println("Niepoprawne dane");
-            sc.next();
+            default:
+                System.out.println("Wybierz poprawną liczbę");
+                break;
         }
     }}
 

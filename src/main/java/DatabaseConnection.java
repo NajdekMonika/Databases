@@ -109,7 +109,8 @@ public class DatabaseConnection {
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
-        PreparedStatement st = connection.prepareStatement("SELECT * FROM zamówienia WHERE klienci_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+        PreparedStatement st = connection.prepareStatement("SELECT Id_zamówienia, Data_godzina, Liczba_sztuk, " +
+                        "Forma_dostawy, Forma_zapłaty FROM zamówienia WHERE klienci_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
         st.setString(1, clientId);
         ResultSet resultSet = st.executeQuery();
