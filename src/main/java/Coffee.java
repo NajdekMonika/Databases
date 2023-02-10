@@ -33,7 +33,7 @@ public class Coffee {
                 ", cena: " + price +
                 ", typ: " + type +
                 ", producent: " + producer +
-                "\nregion: " + region + '\'' +
-                ", kraj: " + country + '\'';
+                "\nregion: " + region +
+                ", kraj: " + country;
     }
 }
