@@ -118,7 +118,7 @@ public class DatabaseConnection {
     }
 
     /*
-    Wyświetlanie zamówień
+    Tworzenie widoku zamówień i wyświetlanie zamówień
      */
     public static void viewYourOrders(String clientId) {
         try{
