@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args) throws SQLException {
@@ -26,11 +28,11 @@ public class Main {
     }
 
     public static void customerMenu(){
-        System.out.println("Wybierz, co chcesz zrobić: ");
-        System.out.println("Wpisz 1, jeśli chcesz przeglądać kawy według zadanych parametrów");
-        System.out.println("Wpisz 2, jeśli chcesz złożyć zamówienie");
-        System.out.println("Wpisz 3, jeśli chcesz zobaczyć swoje poprzednie zamówienia");
-        int answer = sc.nextInt();
+        int answer = 0;
+        while (answer != 4){
+            printMenu();
+        try{
+        answer = sc.nextInt();
         switch (answer){
             case 1:
                 filterCoffee();
@@ -41,10 +43,20 @@ public class Main {
             case 3:
                 //tu miejsce na funkcję drukującą poprzednie zamówienia
                 break;
-            default:
-                System.out.println("Podano złą odpowiedź");
-                customerMenu();
-                break;
+            case 4:
+                exit(0);
+        }}catch(Exception ex){
+            System.out.println("Podaj liczbę między 1 a 4");
+            sc.next();
+        }
+    }}
+
+    public static void printMenu() {
+        System.out.println("Wybierz, co chcesz zrobić: ");
+        String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
+        "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
+        for (String option : options) {
+            System.out.println(option);
         }
     }
 
@@ -67,7 +79,8 @@ public class Main {
             System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
             int choice = sc.nextInt();
             if (choice == 0) {
-                System.out.println(DatabaseConnection.filterCoffees(attributes, conditions));
+                //System.out.println(DatabaseConnection.filterCoffees(attributes, conditions));
+                DatabaseConnection.showFilteredCoffee(attributes, conditions);
                 break;
             } else if (choice <= 4 && choice >= 1) {
                 sc.nextLine();
