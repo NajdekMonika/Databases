@@ -11,11 +11,12 @@ public class DatabaseConnection {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from konta where login='" + username + "' and hasło ='" + password + "'");
-            resultSet.next();
-            account = new Account(
-                    resultSet.getInt("id_konta"),
-                    resultSet.getString("Login"),
-                    resultSet.getString("Hasło"));
+            while(resultSet.next()){
+                account = new Account(
+                        resultSet.getInt("id_konta"),
+                        resultSet.getString("Login"),
+                        resultSet.getString("Hasło"));
+            }
             connection.close();
 
         }
@@ -66,4 +67,24 @@ public class DatabaseConnection {
 
         return coffees;
     }
+
+    public static void addOrder(Order order){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
+            String sql = "INSERT INTO zamówienia (Data_Godzina, Liczba_sztuk, Forma_dostawy, Forma_zapłaty, kawy_id) VALUES (?, ?, ?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, order.getDateTime());
+            statement.setObject(2, order.getCoffeeCount());
+            statement.setObject(3, order.getDelivery());
+            statement.setObject(4, order.getPayment());
+            statement.setObject(5, order.getCoffeeId());
+            statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+
 }
