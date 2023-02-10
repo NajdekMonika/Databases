@@ -119,7 +119,7 @@ public class DatabaseConnection {
             resultSet.beforeFirst();
         }
         if (row == 0) {
-            System.out.println("Nie ma żadnych zamówień.");
+            System.out.println("Nie masz żadnych zamówień.");
         } else {
             printResultSet(st.executeQuery());
         }}catch(SQLException | ClassNotFoundException e){

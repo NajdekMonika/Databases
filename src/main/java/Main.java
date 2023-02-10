@@ -48,7 +48,7 @@ public class Main {
             case 4:
                 exit(0);
         }}catch(Exception ex){
-            System.out.println("Podaj liczbę między 1 a 4");
+            System.out.println("Niepoprawne dane");
             sc.next();
         }
     }}
