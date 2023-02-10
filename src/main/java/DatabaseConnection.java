@@ -4,6 +4,9 @@ import java.util.List;
 
 public class DatabaseConnection {
 
+    /*
+    Metoda zwracająca konto użytkownika
+     */
     public static Account checkIfAccountExists(String username, String password){
         Account account = null;
         try{
@@ -25,6 +28,9 @@ public class DatabaseConnection {
         return account;
     }
 
+    /*
+    Metoda zwracająca id klienta na podstawie id konta
+     */
     public static int getClientIdByAccount(int accountId){
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
@@ -43,6 +49,9 @@ public class DatabaseConnection {
 
 
 
+    /*
+    Filtrowanie kawy
+     */
     public static List<Coffee> filterCoffees(List<String> attributes, List<String> conditions) {
         List<Coffee> coffees = new ArrayList<>();
         try {
@@ -86,6 +95,9 @@ public class DatabaseConnection {
         return coffees;
     }
 
+    /*
+    Dodawanie zamówienia
+     */
     public static void addOrder(Order order){
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
@@ -105,6 +117,9 @@ public class DatabaseConnection {
         }
     }
 
+    /*
+    Wyświetlanie zamówień
+     */
     public static void viewYourOrders(String clientId) {
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -130,6 +145,9 @@ public class DatabaseConnection {
         }
     }
 
+    /*
+    Drukowanie wyników
+     */
     public static void printResultSet(ResultSet resultSet) throws SQLException {
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnsNumber = rsmd.getColumnCount(); // liczba kolumn

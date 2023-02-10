@@ -29,6 +29,9 @@ public class Main {
         }
     }
 
+    /*
+    Menu użytkownika
+     */
     public static void customerMenu(){
         int answer;
         while (true){
@@ -53,6 +56,9 @@ public class Main {
         }
     }}
 
+    /*
+    Metoda drukująca opcje w menu użytkownika
+     */
     public static void printMenu() {
         System.out.println("Wybierz, co chcesz zrobić: ");
         String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
@@ -62,6 +68,9 @@ public class Main {
         }
     }
 
+    /*
+    Metoda służąca do logowania
+     */
     public static Account login() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Podaj login:");
@@ -71,6 +80,9 @@ public class Main {
         return DatabaseConnection.checkIfAccountExists(login,password);
     }
 
+    /*
+    Metoda służąca do filtrowania kawy
+     */
     public static void filterCoffee() {
         List<String> conditions = new ArrayList<>();
         List<String> attributes = new ArrayList<>();
@@ -123,6 +135,9 @@ public class Main {
         }
     }
 
+    /*
+    Metoda służąca do składania zamówienia
+     */
     public static void makeAnOrder(){
         System.out.print("Podaj numer kawy którą chcesz kupić: ");
         int idCoffee = sc.nextInt();
