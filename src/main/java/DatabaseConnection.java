@@ -105,5 +105,43 @@ public class DatabaseConnection {
         }
     }
 
+    public static void viewYourOrders(String clientId) {
+        try{
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM zamówienia WHERE klienci_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        st.setString(1, clientId);
+        ResultSet resultSet = st.executeQuery();
+        int row = 0;
+        if (resultSet.last()) {
+            row = resultSet.getRow();
+            resultSet.beforeFirst();
+        }
+        if (row == 0) {
+            System.out.println("Nie ma żadnych zamówień.");
+        } else {
+            printResultSet(st.executeQuery());
+        }}catch(SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void printResultSet(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int columnsNumber = rsmd.getColumnCount(); // liczba kolumn
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1)
+                    System.out.print(", ");
+                String columnValue = resultSet.getString(i);
+                System.out.print(rsmd.getColumnName(i) + ": " + columnValue);
+            }
+            System.out.println("");
+        }
+        System.out.println("");
+
+    }
+
 
 }

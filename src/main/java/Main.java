@@ -43,7 +43,7 @@ public class Main {
                 makeAnOrder();
                 break;
             case 3:
-                //tu miejsce na funkcję drukującą poprzednie zamówienia
+                DatabaseConnection.viewYourOrders(String.valueOf(clientId));
                 break;
             case 4:
                 exit(0);
