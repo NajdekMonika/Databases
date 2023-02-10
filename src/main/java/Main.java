@@ -1,5 +1,7 @@
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,7 +9,7 @@ import static java.lang.System.exit;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
        mainApp();
     }
 
@@ -36,7 +38,7 @@ public class Main {
                 filterCoffee();
                 break;
             case 2:
-                //tu miejsce na funkcję służącą do składania zamówienia
+                makeAnOrder();
                 break;
             case 3:
                 //tu miejsce na funkcję drukującą poprzednie zamówienia
@@ -77,8 +79,10 @@ public class Main {
             System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
             int choice = sc.nextInt();
             if (choice == 0) {
-                //System.out.println(DatabaseConnection.filterCoffees(attributes, conditions));
-                DatabaseConnection.showFilteredCoffee(attributes, conditions);
+               for(Coffee coffee: DatabaseConnection.filterCoffees(attributes, conditions)){
+                   System.out.println(coffee);
+                   System.out.println();
+                }
                 break;
             } else if (choice <= 4 && choice >= 1) {
                 sc.nextLine();
@@ -115,5 +119,29 @@ public class Main {
                 conditions.add(condition);
             }
         }
+    }
+
+    public static void makeAnOrder(){
+        System.out.print("Podaj numer kawy którą chcesz kupić: ");
+        int idCoffee = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Podaj liczbę sztuk kupowanej kawy: ");
+        int cofeeCount = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Podaj formę dostawy: (kurier/do punktu/paczkomat)");
+        String delivery = sc.nextLine();
+        System.out.print("Podaj formę zapłaty: (przelew/BLIK/przy odbiorze)");
+        String payment = sc.nextLine();
+        List<String> deliveries = Arrays.asList(new String[]{"kurier", "do punktu", "paczkomat"});
+        List<String> payments = Arrays.asList(new String[]{"przelew", "BLIK", "przy odbiorze"});
+        if(deliveries.contains(delivery) && payments.contains(payment)){
+            Order order = new Order(LocalDateTime.now(),cofeeCount,delivery,payment,idCoffee);
+            DatabaseConnection.addOrder(order);
+            System.out.println("Zamówienie zostało złożone.");
+        }
+        else{
+            System.out.println("Niepoprawne dane");
+        }
+
     }
 }

@@ -11,33 +11,18 @@ public class DatabaseConnection {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from konta where login='" + username + "' and hasło ='" + password + "'");
-            resultSet.next();
-            account = new Account(
-                    resultSet.getInt("id_konta"),
-                    resultSet.getString("Login"),
-                    resultSet.getString("Hasło"));
+            while(resultSet.next()){
+                account = new Account(
+                        resultSet.getInt("id_konta"),
+                        resultSet.getString("Login"),
+                        resultSet.getString("Hasło"));
+            }
             connection.close();
 
         }
         catch(SQLException | ClassNotFoundException e){e.printStackTrace();
         }
         return account;
-    }
-
-    public static void printResultSet(ResultSet resultSet) throws SQLException {
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount(); // liczba kolumn
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1)
-                    System.out.print(", ");
-                String columnValue = resultSet.getString(i);
-                System.out.print(rsmd.getColumnName(i) + ": " + columnValue);
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-
     }
 
     public static List<Coffee> filterCoffees(List<String> attributes, List<String> conditions) {
@@ -83,28 +68,23 @@ public class DatabaseConnection {
         return coffees;
     }
 
-    public static void showFilteredCoffee(List<String> attributes, List<String> conditions) {
+    public static void addOrder(Order order){
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
-            Statement statement = connection.createStatement();
-            String sql = "select * from kawa_view where ";
-            for (int i = 0; i < attributes.size(); i++) {
-                if (conditions.get(i).contains("-")) {
-                    String[] range = conditions.get(i).split("-");
-                    sql += attributes.get(i) + " >= " + range[0] + " AND " + attributes.get(i) + " <= " + range[1];
-                } else {
-                    sql += attributes.get(i) + " IN ('" + conditions.get(i) + "') ";
-                }
-                if (i != attributes.size() - 1) {
-                    sql += " and ";
-                }
-            }
-            System.out.println(sql);
-            ResultSet resultSet = statement.executeQuery(sql);
-            printResultSet(statement.executeQuery(sql));
-        } catch (SQLException | ClassNotFoundException e) {
+            String sql = "INSERT INTO zamówienia (Data_Godzina, Liczba_sztuk, Forma_dostawy, Forma_zapłaty, kawy_id) VALUES (?, ?, ?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, order.getDateTime());
+            statement.setObject(2, order.getCoffeeCount());
+            statement.setObject(3, order.getDelivery());
+            statement.setObject(4, order.getPayment());
+            statement.setObject(5, order.getCoffeeId());
+            statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }
     }
+
+
 }

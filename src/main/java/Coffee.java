@@ -25,17 +25,15 @@ public class Coffee {
 
     @Override
     public String toString() {
-        return "Coffee{" +
-                "id=" + id +
-                ", aroma=" + aroma +
-                ", acidity=" + acidity +
-                ", sweetness=" + sweetness +
-                ", score=" + score +
-                ", price=" + price +
-                ", type='" + type + '\'' +
-                ", producer='" + producer + '\'' +
-                ", region='" + region + '\'' +
-                ", country='" + country + '\'' +
-                '}';
+        return "id: " + id +
+                ", aromat: " + aroma +
+                ", kwasowość: " + acidity +
+                ", słodycz: " + sweetness +
+                "\nocena: " + score +
+                ", cena: " + price +
+                ", typ: " + type +
+                ", producent: " + producer +
+                "\nregion: " + region + '\'' +
+                ", kraj: " + country + '\'';
     }
 }
