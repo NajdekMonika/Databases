@@ -9,7 +9,7 @@ import static java.lang.System.exit;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
        mainApp();
     }
 
@@ -79,8 +79,10 @@ public class Main {
             System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
             int choice = sc.nextInt();
             if (choice == 0) {
-                //System.out.println(DatabaseConnection.filterCoffees(attributes, conditions));
-                DatabaseConnection.showFilteredCoffee(attributes, conditions);
+               for(Coffee coffee: DatabaseConnection.filterCoffees(attributes, conditions)){
+                   System.out.println(coffee);
+                   System.out.println();
+                }
                 break;
             } else if (choice <= 4 && choice >= 1) {
                 sc.nextLine();
