@@ -9,6 +9,7 @@ import static java.lang.System.exit;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
+    private static int clientId;
     public static void main(String[] args) {
        mainApp();
     }
@@ -19,6 +20,7 @@ public class Main {
             Account acc = login();
             if (acc != null) {
                 System.out.println("Jesteś zalogowany!");
+                clientId = DatabaseConnection.getClientIdByAccount(acc.getId());
                 customerMenu();
                 break;
             } else {
@@ -135,7 +137,7 @@ public class Main {
         List<String> deliveries = Arrays.asList(new String[]{"kurier", "do punktu", "paczkomat"});
         List<String> payments = Arrays.asList(new String[]{"przelew", "BLIK", "przy odbiorze"});
         if(deliveries.contains(delivery) && payments.contains(payment)){
-            Order order = new Order(LocalDateTime.now(),cofeeCount,delivery,payment,idCoffee);
+            Order order = new Order(LocalDateTime.now(),cofeeCount,delivery,payment,idCoffee,clientId);
             DatabaseConnection.addOrder(order);
             System.out.println("Zamówienie zostało złożone.");
         }

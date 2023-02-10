@@ -25,6 +25,24 @@ public class DatabaseConnection {
         return account;
     }
 
+    public static int getClientIdByAccount(int accountId){
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from klienci where konta_id='"+ accountId + "'");
+            while(resultSet.next()){
+                return resultSet.getInt("id_klienci");
+            }
+            connection.close();
+
+        }
+        catch(SQLException e){e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+
     public static List<Coffee> filterCoffees(List<String> attributes, List<String> conditions) {
         List<Coffee> coffees = new ArrayList<>();
         try {
@@ -71,13 +89,14 @@ public class DatabaseConnection {
     public static void addOrder(Order order){
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
-            String sql = "INSERT INTO zamówienia (Data_Godzina, Liczba_sztuk, Forma_dostawy, Forma_zapłaty, kawy_id) VALUES (?, ?, ?,?,?)";
+            String sql = "INSERT INTO zamówienia (Data_Godzina, Liczba_sztuk, Forma_dostawy, Forma_zapłaty, kawy_id, klienci_id) VALUES (?, ?, ?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setObject(1, order.getDateTime());
             statement.setObject(2, order.getCoffeeCount());
             statement.setObject(3, order.getDelivery());
             statement.setObject(4, order.getPayment());
             statement.setObject(5, order.getCoffeeId());
+            statement.setObject(6, order.getClientId());
             statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
