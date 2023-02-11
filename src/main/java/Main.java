@@ -112,7 +112,7 @@ public class Main {
                 sc.nextLine();
                 System.out.println("Podaj zakres wartości (w postaci 2-4)");
                 String range = sc.nextLine();
-                if (range.length() > 4 || !range.contains("-")) {
+                if (range.length() > 7 || !range.contains("-")) {
                     System.out.println("Błędne dane. Spróbuj jeszcze raz.");
                 } else {
                     if (choice == 1) {
