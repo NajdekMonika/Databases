@@ -63,11 +63,14 @@ public class Main {
      */
     public static void printMenu() {
         System.out.println("Wybierz, co chcesz zrobić: ");
+        System.out.println("----------------------------------------------");
         String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
                 "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
         for (String option : options) {
             System.out.println(option);
         }
+        System.out.println("----------------------------------------------");
+        System.out.println("Wpisz numer: ");
     }
 
     /*
