@@ -65,9 +65,9 @@ public class DatabaseConnection {
                 } else {
                     String[] conditionArray = conditions.get(i).split(",");
                     sql += attributes.get(i) + " IN ("; //'" + conditions.get(i) + "') ";
-                    for (int index = 0; index < conditionArray.length; index++){
-                        sql += "'"+conditionArray[index]+"'";
-                        if (index != conditionArray.length - 1){
+                    for (int index = 0; index < conditionArray.length; index++) {
+                        sql += "'" + conditionArray[index] + "'";
+                        if (index != conditionArray.length - 1) {
                             sql += ',';
                         }
                     }

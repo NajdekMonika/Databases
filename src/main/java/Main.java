@@ -1,9 +1,6 @@
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.exit;
 
@@ -127,7 +124,7 @@ public class Main {
                     conditions.add(range);
                 }
 
-            } else {
+            } else if(choice >= 5 && choice <= 8) {
                 String attribute = switch (choice) {
                     case 5 -> "typy";
                     case 6 -> "producenci";
@@ -136,11 +133,19 @@ public class Main {
                     default -> "";
                 };
                 sc.nextLine();
-                System.out.println("Podaj " + attribute + "-y ");
+                Map<String, String> attributeMap = new HashMap<>() {{
+                    put("typy", "typ/typy");
+                    put("producenci", "producenta/producentów");
+                    put("rejon", "rejon/rejony");
+                    put("kraj", "kraj/kraje");
+                }};
+                System.out.println("Podaj " + attributeMap.get(attribute));
                 System.out.println("Gdy więcej niż jeden, wtedy oddziel je przecinkiem (a,b,c):");
                 String condition = sc.nextLine();
                 attributes.add(attribute);
                 conditions.add(condition);
+            }else {
+                System.out.println("Niepoprawny numer. Spróbuj jeszcze raz.");
             }
         }
     }
