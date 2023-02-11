@@ -4,8 +4,12 @@ import java.util.List;
 
 public class DatabaseConnection {
 
-    /*
-    Metoda zwracająca konto użytkownika
+    /**
+     * Metoda sprawdzająca w bazie danych czy podane przez użytkownika login i hasło istnieją.
+     * Tworzone jest account, do którego przypisywane są id konta, login i hasło.
+     * @param username - login użytkownika
+     * @param password - hasło uzytkownika
+     * @return obiekt reperezentujący konto klienta
      */
     public static Account checkIfAccountExists(String username, String password) {
         Account account = null;
@@ -28,8 +32,10 @@ public class DatabaseConnection {
         return account;
     }
 
-    /*
-    Metoda zwracająca id klienta na podstawie id konta
+    /**
+     * Metoda zwracająca id klienta na podstawie id konta.
+     * @param accountId - id konta
+     * @return id klienta, albo jeśli id nie istnieje w systemie zwraca 0.
      */
     public static int getClientIdByAccount(int accountId) {
         try {
@@ -48,8 +54,11 @@ public class DatabaseConnection {
     }
 
 
-    /*
-    Filtrowanie kawy
+    /**
+     * Metoda filtrująca kawy według zadanych parametrów
+     * @param attributes - lista atrybutów
+     * @param conditions - lista warunków
+     * @return lista przefiltrowanych kaw.
      */
     public static List<Coffee> filterCoffees(List<String> attributes, List<String> conditions) {
         List<Coffee> coffees = new ArrayList<>();
@@ -103,8 +112,9 @@ public class DatabaseConnection {
         return coffees;
     }
 
-    /*
-    Dodawanie zamówienia
+    /**
+     * Metoda dodający zamówienie do bazy danych.
+     * @param order - Obiekt klasy order
      */
     public static void addOrder(Order order) {
         try {
@@ -143,8 +153,9 @@ public class DatabaseConnection {
         }
     }
 
-    /*
-    Tworzenie widoku zamówień i wyświetlanie zamówień
+    /**
+     *
+     * @param clientId
      */
     public static void viewYourOrders(String clientId) {
         try {
@@ -174,8 +185,10 @@ public class DatabaseConnection {
         }
     }
 
-    /*
-    Drukowanie wyników
+    /**
+     * Metoda wypisująca wyniki zapytań sql.
+     * @param resultSet - obiekt reprezentujący odpowiedź na zapytanie.
+     * @throws SQLException
      */
     public static void printResultSet(ResultSet resultSet) throws SQLException {
         ResultSetMetaData rsmd = resultSet.getMetaData();

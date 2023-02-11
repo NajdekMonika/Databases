@@ -1,4 +1,3 @@
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -13,6 +12,9 @@ public class Main {
     }
 
 
+    /**
+     * Metoda rozpoczynająca działanie programy.
+     */
     public static void mainApp() {
         while (true) {
             Account acc = login();
@@ -27,8 +29,8 @@ public class Main {
         }
     }
 
-    /*
-    Menu użytkownika
+    /**
+     * Metoda która zarządza wywoływaniem poszczególnych metod w programie.
      */
     public static void customerMenu() {
         int answer;
@@ -56,8 +58,8 @@ public class Main {
         }
     }
 
-    /*
-    Metoda drukująca opcje w menu użytkownika
+    /**
+     * Metoda drukująca opcje w menu użytkownika.
      */
     public static void printMenu() {
         System.out.println("Wybierz, co chcesz zrobić: ");
@@ -71,8 +73,9 @@ public class Main {
         System.out.println("Wpisz numer: ");
     }
 
-    /*
-    Metoda służąca do logowania
+    /**
+     * Metoda służąca do logowania
+     * @return account z metody checkIfAccountExists
      */
     public static Account login() {
         Scanner sc = new Scanner(System.in);
@@ -83,8 +86,8 @@ public class Main {
         return DatabaseConnection.checkIfAccountExists(login, password);
     }
 
-    /*
-    Metoda służąca do filtrowania kawy
+    /**
+     * Metoda służąca do pobierania od użytkownika jego odpowiedzi dotyczących filtrowania kawy i obsługująca je
      */
     public static void filterCoffee() {
         List<String> conditions = new ArrayList<>();
@@ -150,8 +153,8 @@ public class Main {
         }
     }
 
-    /*
-    Metoda służąca do składania zamówienia
+    /**
+     * Metoda służąca do pobierania od użytkownika jego odpowiedzi dotyczących zakupu kawy i obsługująca je
      */
     public static void makeAnOrder() {
         System.out.print("Podaj numer kawy którą chcesz kupić: ");
