@@ -50,6 +50,7 @@ public class Main {
                     DatabaseConnection.viewYourOrders(String.valueOf(clientId));
                     break;
                 case 4:
+                    System.out.println("Nastąpiło wylogowanie.");
                     exit(0);
                 default:
                     System.out.println("Wybierz poprawną liczbę");
@@ -95,7 +96,7 @@ public class Main {
             System.out.println("Wybierz po czym chcesz filtrować kawy: ");
             System.out.println("1 - aromat, 2- kwasowość, 3 - słodycz");
             System.out.println("4 - ocena, 5 - typ, 6 - producent");
-            System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
+            System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie i pokaż wynik");
             int choice = sc.nextInt();
             if (choice == 0) {
                 for (Coffee coffee : DatabaseConnection.filterCoffees(attributes, conditions)) {
