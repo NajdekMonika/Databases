@@ -63,7 +63,15 @@ public class DatabaseConnection {
                     String[] range = conditions.get(i).split("-");
                     sql += attributes.get(i) + " >= " + range[0] + " AND " + attributes.get(i) + " <= " + range[1];
                 } else {
-                    sql += attributes.get(i) + " IN ('" + conditions.get(i) + "') ";
+                    String[] conditionArray = conditions.get(i).split(",");
+                    sql += attributes.get(i) + " IN ("; //'" + conditions.get(i) + "') ";
+                    for (int index = 0; index < conditionArray.length; index++){
+                        sql += "'"+conditionArray[index]+"'";
+                        if (index != conditionArray.length - 1){
+                            sql += ',';
+                        }
+                    }
+                    sql += ")";
                 }
                 if (i != attributes.size() - 1) {
                     sql += " and ";
