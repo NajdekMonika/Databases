@@ -1,21 +1,19 @@
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.exit;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
     private static int clientId;
+
     public static void main(String[] args) {
-       mainApp();
+        mainApp();
     }
 
 
-    public static void mainApp(){
+    public static void mainApp() {
         while (true) {
             Account acc = login();
             if (acc != null) {
@@ -29,48 +27,65 @@ public class Main {
         }
     }
 
-    public static void customerMenu(){
-        int answer = 0;
-        while (answer != 4){
+    /*
+    Menu użytkownika
+     */
+    public static void customerMenu() {
+        int answer;
+        while (true) {
             printMenu();
-        try{
-        answer = sc.nextInt();
-        switch (answer){
-            case 1:
-                filterCoffee();
-                break;
-            case 2:
-                makeAnOrder();
-                break;
-            case 3:
-                //tu miejsce na funkcję drukującą poprzednie zamówienia
-                break;
-            case 4:
-                exit(0);
-        }}catch(Exception ex){
-            System.out.println("Podaj liczbę między 1 a 4");
-            sc.next();
-        }
-    }}
-
-    public static void printMenu() {
-        System.out.println("Wybierz, co chcesz zrobić: ");
-        String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
-        "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
-        for (String option : options) {
-            System.out.println(option);
+            answer = sc.nextInt();
+            sc.nextLine();
+            switch (answer) {
+                case 1:
+                    filterCoffee();
+                    break;
+                case 2:
+                    makeAnOrder();
+                    break;
+                case 3:
+                    DatabaseConnection.viewYourOrders(String.valueOf(clientId));
+                    break;
+                case 4:
+                    System.out.println("Nastąpiło wylogowanie.");
+                    exit(0);
+                default:
+                    System.out.println("Wybierz poprawną liczbę");
+                    break;
+            }
         }
     }
 
+    /*
+    Metoda drukująca opcje w menu użytkownika
+     */
+    public static void printMenu() {
+        System.out.println("Wybierz, co chcesz zrobić: ");
+        System.out.println("----------------------------------------------");
+        String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
+                "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
+        for (String option : options) {
+            System.out.println(option);
+        }
+        System.out.println("----------------------------------------------");
+        System.out.println("Wpisz numer: ");
+    }
+
+    /*
+    Metoda służąca do logowania
+     */
     public static Account login() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Podaj login:");
         String login = sc.nextLine();
         System.out.println("Podaj haslo:");
         String password = sc.nextLine();
-        return DatabaseConnection.checkIfAccountExists(login,password);
+        return DatabaseConnection.checkIfAccountExists(login, password);
     }
 
+    /*
+    Metoda służąca do filtrowania kawy
+     */
     public static void filterCoffee() {
         List<String> conditions = new ArrayList<>();
         List<String> attributes = new ArrayList<>();
@@ -78,12 +93,16 @@ public class Main {
             System.out.println("Wybierz po czym chcesz filtrować kawy: ");
             System.out.println("1 - aromat, 2- kwasowość, 3 - słodycz");
             System.out.println("4 - ocena, 5 - typ, 6 - producent");
-            System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
+            System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie i pokaż wynik");
             int choice = sc.nextInt();
             if (choice == 0) {
-               for(Coffee coffee: DatabaseConnection.filterCoffees(attributes, conditions)){
-                   System.out.println(coffee);
-                   System.out.println();
+                if (!attributes.isEmpty() && !conditions.isEmpty()) {
+                    for (Coffee coffee : DatabaseConnection.filterCoffees(attributes, conditions)) {
+                        System.out.println(coffee);
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("Nie wybrano filtrów.");
                 }
                 break;
             } else if (choice <= 4 && choice >= 1) {
@@ -105,7 +124,7 @@ public class Main {
                     conditions.add(range);
                 }
 
-            } else {
+            } else if(choice >= 5 && choice <= 8) {
                 String attribute = switch (choice) {
                     case 5 -> "typy";
                     case 6 -> "producenci";
@@ -114,16 +133,27 @@ public class Main {
                     default -> "";
                 };
                 sc.nextLine();
-                System.out.println("Podaj " + attribute + "-y ");
+                Map<String, String> attributeMap = new HashMap<>() {{
+                    put("typy", "typ/typy");
+                    put("producenci", "producenta/producentów");
+                    put("rejon", "rejon/rejony");
+                    put("kraj", "kraj/kraje");
+                }};
+                System.out.println("Podaj " + attributeMap.get(attribute));
                 System.out.println("Gdy więcej niż jeden, wtedy oddziel je przecinkiem (a,b,c):");
                 String condition = sc.nextLine();
                 attributes.add(attribute);
                 conditions.add(condition);
+            }else {
+                System.out.println("Niepoprawny numer. Spróbuj jeszcze raz.");
             }
         }
     }
 
-    public static void makeAnOrder(){
+    /*
+    Metoda służąca do składania zamówienia
+     */
+    public static void makeAnOrder() {
         System.out.print("Podaj numer kawy którą chcesz kupić: ");
         int idCoffee = sc.nextInt();
         sc.nextLine();
@@ -136,12 +166,10 @@ public class Main {
         String payment = sc.nextLine();
         List<String> deliveries = Arrays.asList(new String[]{"kurier", "do punktu", "paczkomat"});
         List<String> payments = Arrays.asList(new String[]{"przelew", "BLIK", "przy odbiorze"});
-        if(deliveries.contains(delivery) && payments.contains(payment)){
-            Order order = new Order(LocalDateTime.now(),cofeeCount,delivery,payment,idCoffee,clientId);
+        if (deliveries.contains(delivery) && payments.contains(payment)) {
+            Order order = new Order(LocalDateTime.now(), cofeeCount, delivery, payment, idCoffee, clientId);
             DatabaseConnection.addOrder(order);
-            System.out.println("Zamówienie zostało złożone.");
-        }
-        else{
+        } else {
             System.out.println("Niepoprawne dane");
         }
 
