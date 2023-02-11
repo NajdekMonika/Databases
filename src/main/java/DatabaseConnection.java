@@ -150,14 +150,9 @@ public class DatabaseConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kawy", "root", "studia123");
-            PreparedStatement st = connection.prepareStatement("create or replace view zamówienia_view as SELECT z.Id_zamówienia," +
-                    " z.Data_godzina, z.Liczba_sztuk, z.Forma_dostawy, z.Forma_zapłaty, z.kawy_id," +
-                    " k.Cena*z.Liczba_sztuk as całkowita_cena FROM zamówienia z join kawy k" +
-                    " on  k.id_kawy = z.kawy_id WHERE z.klienci_id = ?");
-            st.setString(1, clientId);
-            st.executeUpdate();
-            st = connection.prepareStatement("select * from zamówienia_view", ResultSet.TYPE_SCROLL_SENSITIVE,
+            PreparedStatement st = connection.prepareStatement("select * from zamówienia_view where klienci_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
+            st.setString(1, clientId);
             ResultSet resultSet = st.executeQuery();
             int row = 0;
             if (resultSet.last()) {
