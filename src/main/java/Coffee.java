@@ -9,8 +9,9 @@ public class Coffee {
     private String producer;
     private String region;
     private String country;
+    private int quantity;
 
-    public Coffee(int id, double aroma, double acidity, double sweetness, double score, double price, String type, String producer, String region, String country) {
+    public Coffee(int id, double aroma, double acidity, double sweetness, double score, double price, String type, String producer, String region, String country, int quantity) {
         this.id = id;
         this.aroma = aroma;
         this.acidity = acidity;
@@ -21,6 +22,7 @@ public class Coffee {
         this.producer = producer;
         this.region = region;
         this.country = country;
+        this.quantity = quantity;
     }
 
     @Override
@@ -34,6 +36,7 @@ public class Coffee {
                 ", typ: " + type +
                 ", producent: " + producer +
                 "\nregion: " + region +
-                ", kraj: " + country;
+                ", kraj: " + country+
+                ", liczba paczek: " + quantity;
     }
 }

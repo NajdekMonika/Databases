@@ -10,12 +10,13 @@ import static java.lang.System.exit;
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
     private static int clientId;
+
     public static void main(String[] args) {
-       mainApp();
+        mainApp();
     }
 
 
-    public static void mainApp(){
+    public static void mainApp() {
         while (true) {
             Account acc = login();
             if (acc != null) {
@@ -32,29 +33,30 @@ public class Main {
     /*
     Menu użytkownika
      */
-    public static void customerMenu(){
+    public static void customerMenu() {
         int answer;
-        while (true){
+        while (true) {
             printMenu();
-        answer = sc.nextInt();
-        sc.nextLine();
-        switch (answer){
-            case 1:
-                filterCoffee();
-                break;
-            case 2:
-                makeAnOrder();
-                break;
-            case 3:
-                DatabaseConnection.viewYourOrders(String.valueOf(clientId));
-                break;
-            case 4:
-                exit(0);
-            default:
-                System.out.println("Wybierz poprawną liczbę");
-                break;
+            answer = sc.nextInt();
+            sc.nextLine();
+            switch (answer) {
+                case 1:
+                    filterCoffee();
+                    break;
+                case 2:
+                    makeAnOrder();
+                    break;
+                case 3:
+                    DatabaseConnection.viewYourOrders(String.valueOf(clientId));
+                    break;
+                case 4:
+                    exit(0);
+                default:
+                    System.out.println("Wybierz poprawną liczbę");
+                    break;
+            }
         }
-    }}
+    }
 
     /*
     Metoda drukująca opcje w menu użytkownika
@@ -62,7 +64,7 @@ public class Main {
     public static void printMenu() {
         System.out.println("Wybierz, co chcesz zrobić: ");
         String[] options = {"1 - przeglądanie  według zadanych parametrów", "2 - złożenie zamówienia",
-        "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
+                "3 - zobaczenie poprzednich zamówień", "4 - wylogowanie"};
         for (String option : options) {
             System.out.println(option);
         }
@@ -77,7 +79,7 @@ public class Main {
         String login = sc.nextLine();
         System.out.println("Podaj haslo:");
         String password = sc.nextLine();
-        return DatabaseConnection.checkIfAccountExists(login,password);
+        return DatabaseConnection.checkIfAccountExists(login, password);
     }
 
     /*
@@ -93,9 +95,9 @@ public class Main {
             System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie");
             int choice = sc.nextInt();
             if (choice == 0) {
-               for(Coffee coffee: DatabaseConnection.filterCoffees(attributes, conditions)){
-                   System.out.println(coffee);
-                   System.out.println();
+                for (Coffee coffee : DatabaseConnection.filterCoffees(attributes, conditions)) {
+                    System.out.println(coffee);
+                    System.out.println();
                 }
                 break;
             } else if (choice <= 4 && choice >= 1) {
@@ -138,7 +140,7 @@ public class Main {
     /*
     Metoda służąca do składania zamówienia
      */
-    public static void makeAnOrder(){
+    public static void makeAnOrder() {
         System.out.print("Podaj numer kawy którą chcesz kupić: ");
         int idCoffee = sc.nextInt();
         sc.nextLine();
@@ -151,12 +153,10 @@ public class Main {
         String payment = sc.nextLine();
         List<String> deliveries = Arrays.asList(new String[]{"kurier", "do punktu", "paczkomat"});
         List<String> payments = Arrays.asList(new String[]{"przelew", "BLIK", "przy odbiorze"});
-        if(deliveries.contains(delivery) && payments.contains(payment)){
-            Order order = new Order(LocalDateTime.now(),cofeeCount,delivery,payment,idCoffee,clientId);
+        if (deliveries.contains(delivery) && payments.contains(payment)) {
+            Order order = new Order(LocalDateTime.now(), cofeeCount, delivery, payment, idCoffee, clientId);
             DatabaseConnection.addOrder(order);
-            System.out.println("Zamówienie zostało złożone.");
-        }
-        else{
+        } else {
             System.out.println("Niepoprawne dane");
         }
 
