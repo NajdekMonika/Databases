@@ -154,7 +154,7 @@ public class DatabaseConnection {
     }
 
     /**
-     *
+     * Metoda wyświetlająca zamówienia klienta.
      * @param clientId
      */
     public static void viewYourOrders(String clientId) {
