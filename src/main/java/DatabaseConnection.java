@@ -4,6 +4,12 @@ import java.util.List;
 
 public class DatabaseConnection {
 
+    /**
+     * Metoda sprawdzająca w bazie danych czy podane przez użytkownika login i hasło istnieją
+     * @param username - login użytkownika
+     * @param password
+     * @return
+     */
     public static Account checkIfAccountExists(String username, String password){
         Account account = null;
         try{
