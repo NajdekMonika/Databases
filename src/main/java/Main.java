@@ -99,9 +99,13 @@ public class Main {
             System.out.println("7 - region, 8 - kraj, 0 - zakończ filtrowanie i pokaż wynik");
             int choice = sc.nextInt();
             if (choice == 0) {
-                for (Coffee coffee : DatabaseConnection.filterCoffees(attributes, conditions)) {
-                    System.out.println(coffee);
-                    System.out.println();
+                if (!attributes.isEmpty() && !conditions.isEmpty()) {
+                    for (Coffee coffee : DatabaseConnection.filterCoffees(attributes, conditions)) {
+                        System.out.println(coffee);
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("Nie wybrano filtrów.");
                 }
                 break;
             } else if (choice <= 4 && choice >= 1) {
